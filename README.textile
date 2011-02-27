@@ -102,3 +102,8 @@ h3. readEachFileMatching
   console.log(">> Found file: " + file + " with: " + content.length + " chars");
 });
 </code></pre>
+
+h2. Issues?
+
+Message me above on Github if you have any questions or issues. I'll expand to a group of some kind if enough people find this useful.
+
