@@ -13,7 +13,6 @@
     "type" : "git",
     "url" : "https://github.com/lukebayes/node-fileutils",
   },
-  "directories" : ["src"],
   "main" : "src/fileutils.js",
   "test" : "runner.js",
   "engines" : { "node" : ">= 0.4.0" },
