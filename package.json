@@ -1,0 +1,20 @@
+{
+  "name" : "fileutils",
+  "version" : "0.0.1",
+  "description" : "Some utilities that diminish the suck of working with the file system in node",
+  "keywords" : ["files", "directories", "fileutil"],
+  "homepage" : "http://github.com/lukebayes/node-fileutils",
+  "author" : {
+    "name" : "Luke Bayes",
+    "email" : "lbayes@patternpark.com",
+    "url" : "http://lukebayes.com",
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/lukebayes/node-fileutils",
+  },
+  "directories" : ["src"],
+  "main" : "src/fileutils.js",
+  "test" : "runner.js",
+  "engines" : { "node" : ">= 0.4.0" },
+}

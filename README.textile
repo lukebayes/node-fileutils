@@ -1,0 +1,5 @@
+
+h1. Node FileUtils
+
+A collection of utilities that take some of the suck out of working with the file system in Node.
+
