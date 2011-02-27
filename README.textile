@@ -48,8 +48,7 @@ eachFileOrDirectory will recursively, asynchronously traverse the file system st
 
 Following is an example of a simple, typical usage:
 
-<pre><code>
-  eachFileOrDirectory('test/', function(err, file, stat) {
+<pre><code>eachFileOrDirectory('test/', function(err, file, stat) {
     if (err) throw err;
     if (!stat.isDirectory()) {
       console.log(">> Found file: " + file);
@@ -62,8 +61,7 @@ Following is an example of a simple, typical usage:
 Following is an example that waits for all files and directories to be 
 scanned and then uses the entire result to do somthing:
 
-<pre><code>
-  eachFileOrDirectory('test/', null, function(files, stats) {
+<pre><code>eachFileOrDirectory('test/', null, function(files, stats) {
     if (err) throw err;
     var len = files.length;
     for (var i = 0; i < len; i++) {
@@ -86,8 +84,7 @@ eachFileMatching works just like eachFile, but it only includes files that match
 
 Following is a simple example of using eachFileMatching:
 
-<pre><code>
-eachFileMatching(/_test.js/, 'test', function(err, file, stat) {
+<pre><code>eachFileMatching(/_test.js/, 'test', function(err, file, stat) {
   if (err) throw err;
   console.log(">> Found file: " + file);
 });
@@ -97,8 +94,7 @@ h3. readEachFileMatching
 
 readEachFileMatching works just like eachFileMatching, but it also calls callback with the contents of each file that is found. Note that this method should not be used with unusually large files that you might prefer to read with buffers.
 
-<pre><code>
-readEachFileMatching(/_test.js/, 'test', function(err, file, stat, content) {
+<pre><code>readEachFileMatching(/_test.js/, 'test', function(err, file, stat, content) {
   if (err) throw err;
   console.log(">> Found file: " + file + " with: " + content.length + " chars");
 });
