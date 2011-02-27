@@ -12,9 +12,9 @@ The package is available over npm and can be installed with:
 
 One you have it installed, you should be able to include it with:
 
-<pre><code>var fileutils = require('node-fileutils');
+<pre><code>var fu = require('node-fileutils');
 
-  fileutils.eachFileOrDirectory(...);
+fu.eachFileOrDirectory(...);
 </code></pre>
 
 Or, if you're only using one of the methods, you can require it directly with:
@@ -24,7 +24,7 @@ Or, if you're only using one of the methods, you can require it directly with:
 
 h2. Examples
 
-Following are some examples that hopefully make sense.
+Following are some examples that should make it easier to work with these utilities.
 
 h3. eachFileOrDirectory
 
@@ -33,7 +33,7 @@ This is the foundation method that each of the others relies on. This method was
  * Were no files found?
  * Are we finished with the traversal?
 
-The most basic implementation of traversing the file system using only the node library does give us a timly callback, but does not answer the two questions above.
+The most basic implementation of traversing the file system using only the node library does give us a timely callback, but does not answer the two questions above.
 
 <code>eachFileOrDirectory</code> will recursively, asynchronously traverse the file system starting at the provided <code>directory</code> and will call <code>fileHandler</code> for each file or directory that is found. When traversal is complete, the optional <code>completeHandler</code> will be called (if it is provided).
 
@@ -51,12 +51,12 @@ The most basic implementation of traversing the file system using only the node 
 
 Following is an example of a simple, typical usage:
 
-<pre><code>eachFileOrDirectory('test/', function(err, file, stat) {
+<pre><code>eachFileOrDirectory('test/', function(err, fileOrDirectory, stat) {
     if (err) throw err;
     if (!stat.isDirectory()) {
-      console.log(">> Found file: " + file);
+      console.log(">> Found file: " + fileOrDirectory);
     } else {
-      console.log(">> Found directory: " + directory);
+      console.log(">> Found directory: " + fileOrDirectory);
     }
   });
 </code></pre>
