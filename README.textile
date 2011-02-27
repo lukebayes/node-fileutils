@@ -3,3 +3,103 @@ h1. Node FileUtils
 
 A collection of utilities that take some of the suck out of working with the file system in Node.
 
+h2. Installation
+
+The package is available over npm and can be installed with:
+
+  npm install node-fileutils
+
+One you have it installed, you should be able to include it with:
+
+  var fileutils = require('node-fileutils');
+
+  fileutils.eachFileOrDirectory(...);
+
+Or, if you're only using one of the methods, you can require it directly with:
+
+  var readEachFileMatching = require('node-fileutils').readEachFileMatching;
+
+h2. Examples
+
+Following are some examples that hopefully make sense.
+
+h3. eachFileOrDirectory
+
+This is the foundation method that each of the others relies on. This method was designed to address some missing features in the node File System package. When recursively, asynchronously traversing the file system, I would like a handler to be called as soon as each file (or in some cases, directory) is found, but I also want to know the following:
+
+ * Were no files found?
+ * Are we finished with the traversal?
+
+The most basic implementation of traversing the file system using only the node library does give us a timly callback, but does not answer the two questions above.
+
+eachFileOrDirectory will recursively, asynchronously traverse the file system starting at the provided <code>directory</code> and will call <code>fileHandler</code> for each file or directory that is found. When traversal is complete, the optional <code>completeHandler</code> will be called (if it is provided).
+
+<code>fileHandler</code> is called with the following arguments:
+
+ * err: Null if no error is found
+ * fileOrDirectory: The file or directory name and path
+ * stat: A Stat object for the file or directory
+
+<code>completeHandler</code> is called with the following arguments:
+
+ * err: Null if no error is found
+ * filesAndDirectories: An Array of all files and directories
+ * stats: An Array of all Stat objects (indexed the same as the files)
+
+Following is an example of a simple, typical usage:
+
+<pre><code>
+  eachFileOrDirectory('test/', function(err, file, stat) {
+    if (err) throw err;
+    if (!stat.isDirectory()) {
+      console.log(">> Found file: " + file);
+    } else {
+      console.log(">> Found directory: " + directory);
+    }
+  });
+</code></pre>
+
+Following is an example that waits for all files and directories to be 
+scanned and then uses the entire result to do somthing:
+
+<pre><code>
+  eachFileOrDirectory('test/', null, function(files, stats) {
+    if (err) throw err;
+    var len = files.length;
+    for (var i = 0; i < len; i++) {
+      if (!stats[i].isDirectory()) {
+        console.log(">> Found file: " + files[i]);
+      } else {
+        console.log(">> Found directory: " + files[i]);
+      }
+    }
+  });
+</code></pre>
+
+h3. eachFile
+
+eachFile works just like eachFileOrDirectory, but even though it recursively traverses the file system, it only calls callback with files, not directories.
+
+h3. eachFileMatching
+
+eachFileMatching works just like eachFile, but it only includes files that match a provided regualar expression.
+
+Following is a simple example of using eachFileMatching:
+
+<pre><code>
+eachFileMatching(/_test.js/, 'test', function(err, file, stat) {
+  if (err) throw err;
+  console.log(">> Found file: " + file);
+});
+</code></pre>
+
+h3. readEachFileMatching
+
+readEachFileMatching works just like eachFileMatching, but it also calls callback with the contents of each file that is found. Note that this method should not be used with unusually large files that you might prefer to read with buffers.
+
+<pre><code>
+readEachFileMatching(/_test.js/, 'test', function(err, file, stat, content) {
+  if (err) throw err;
+  console.log(">> Found file: " + file + " with: " + content.length + " chars");
+});
+</code></pre>

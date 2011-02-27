@@ -93,7 +93,7 @@ var eachFile = function(path, callback, completeHandler) {
     if (!stat.isDirectory()) {
       files.push(file);
       stats.push(stat);
-      callback(null, file, stat);
+      if (callback) callback(null, file, stat);
     }
   }, function(err) {
     if (err) return completeHandler(err);
@@ -101,6 +101,16 @@ var eachFile = function(path, callback, completeHandler) {
   });
 };
 
+/**
+ * Works just like eachFile, but it only includes files that match a provided
+ * regular expression.
+ *
+ *   eachFileMatching(/_test.js/, 'test', function(err, file, stat) {
+ *     if (err) throw err;
+ *     console.log(">> Found file: " + file);
+ *   });
+ *
+ */
 var eachFileMatching = function(expression, path, callback, completeHandler) {
   var files = [];
   var stats = [];
@@ -110,7 +120,7 @@ var eachFileMatching = function(expression, path, callback, completeHandler) {
     if (expression.test(file)) {
       files.push(file);
       stats.push(stat);
-      callback(null, file, stat);
+      if (callback) callback(null, file, stat);
     }
   }, function(err) {
     if (err) return completeHandler(err);
@@ -126,6 +136,11 @@ var eachFileMatching = function(expression, path, callback, completeHandler) {
  *
  * Calls the optionally provided completeHandler when the search is 
  * complete.
+ *
+ *   readEachFileMatching(/_test.js/, 'test', function(err, file, stat, content) {
+ *     if (err) throw err;
+ *     console.log(">> Found file: " + file + " with: " + content.length + " chars");
+ *   });
  */
 var readEachFileMatching = function(expression, path, callback, completeHandler) {
   var files = [];
@@ -137,7 +152,7 @@ var readEachFileMatching = function(expression, path, callback, completeHandler)
       files.push(file);
       contents.push(content);
       stats.push(stat);
-      callback(null, file, stat, content);
+      if (callback) callback(null, file, stat, content);
     });
   }, function(err) {
     if (err) return completeHandler(err);
