@@ -7,17 +7,20 @@ h2. Installation
 
 The package is available over npm and can be installed with:
 
-  npm install node-fileutils
+<pre><code>npm install node-fileutils
+</code></pre>
 
 One you have it installed, you should be able to include it with:
 
-  var fileutils = require('node-fileutils');
+<pre><code>var fileutils = require('node-fileutils');
 
   fileutils.eachFileOrDirectory(...);
+</code></pre>
 
 Or, if you're only using one of the methods, you can require it directly with:
 
-  var readEachFileMatching = require('node-fileutils').readEachFileMatching;
+<pre><code>var readEachFileMatching = require('node-fileutils').readEachFileMatching;
+</code></pre>
 
 h2. Examples
 
@@ -32,7 +35,7 @@ This is the foundation method that each of the others relies on. This method was
 
 The most basic implementation of traversing the file system using only the node library does give us a timly callback, but does not answer the two questions above.
 
-eachFileOrDirectory will recursively, asynchronously traverse the file system starting at the provided <code>directory</code> and will call <code>fileHandler</code> for each file or directory that is found. When traversal is complete, the optional <code>completeHandler</code> will be called (if it is provided).
+<code>eachFileOrDirectory</code> will recursively, asynchronously traverse the file system starting at the provided <code>directory</code> and will call <code>fileHandler</code> for each file or directory that is found. When traversal is complete, the optional <code>completeHandler</code> will be called (if it is provided).
 
 <code>fileHandler</code> is called with the following arguments:
 
@@ -59,7 +62,7 @@ Following is an example of a simple, typical usage:
 </code></pre>
 
 Following is an example that waits for all files and directories to be 
-scanned and then uses the entire result to do somthing:
+scanned and then uses the entire result to do something:
 
 <pre><code>eachFileOrDirectory('test/', null, function(files, stats) {
     if (err) throw err;
@@ -76,11 +79,11 @@ scanned and then uses the entire result to do somthing:
 
 h3. eachFile
 
-eachFile works just like eachFileOrDirectory, but even though it recursively traverses the file system, it only calls callback with files, not directories.
+<code>eachFile</code> works just like <code>eachFileOrDirectory</code>, but even though it recursively traverses the file system, it only calls callback with files, not directories.
 
 h3. eachFileMatching
 
-eachFileMatching works just like eachFile, but it only includes files that match a provided regualar expression.
+<code>eachFileMatching</code> works just like eachFile, but it only includes files that match a provided regualar expression.
 
 Following is a simple example of using eachFileMatching:
 
@@ -92,7 +95,7 @@ Following is a simple example of using eachFileMatching:
 
 h3. readEachFileMatching
 
-readEachFileMatching works just like eachFileMatching, but it also calls callback with the contents of each file that is found. Note that this method should not be used with unusually large files that you might prefer to read with buffers.
+<code>readEachFileMatching</code> works just like <code>eachFileMatching</code>, but it also calls callback with the contents of each file that is found. Note that this method should not be used with unusually large files that you might prefer to read with buffers.
 
 <pre><code>readEachFileMatching(/_test.js/, 'test', function(err, file, stat, content) {
   if (err) throw err;
