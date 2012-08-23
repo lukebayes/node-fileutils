@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/lukebayes/node-fileutils.png)](http://travis-ci.org/lukebayes/node-fileutils)
 
 h1. Node FileUtils
 
