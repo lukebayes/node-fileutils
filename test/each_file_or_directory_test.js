@@ -15,8 +15,8 @@ var eachFileOrDirectory = require('fileutils').eachFileOrDirectory;
     stats.push(stat);
   }, function(items, stats) {
     completeCalled = true;
-    assert.equal(7, files.length);
-    assert.equal(7, stats.length);
+    assert.equal(6, files.length);
+    assert.equal(6, stats.length);
   });
 
   setTimeout(function() {
@@ -33,7 +33,7 @@ var eachFileOrDirectory = require('fileutils').eachFileOrDirectory;
     fileHandlerCalled = true;
     files.push(file);
   }, function(items, stats) {
-    assert.equal(13, files.length);
+    assert.equal(11, files.length);
     completeCalled = true;
   });
 
