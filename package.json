@@ -1,6 +1,6 @@
 {
   "name" : "fileutils",
-  "version" : "0.1.0",
+  "version" : "1.0.0",
   "description" : "Some utilities that diminish the suck of working with the file system in node",
   "keywords" : ["files", "directories", "fileutil"],
   "homepage" : "http://github.com/lukebayes/node-fileutils",
@@ -14,7 +14,9 @@
     "url" : "https://github.com/lukebayes/node-fileutils"
   },
   "main" : "src/fileutils.js",
+  "files" : ["README.md", "src/fileutils.js"],
   "test" : "runner.js",
-  "engines" : { "node" : ">= 0.4.0" }
+  "engines" : { "node" : ">= 0.4.0" },
+  "license" : "MIT"
 }
 
