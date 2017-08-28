@@ -1,6 +1,6 @@
 {
   "name" : "fileutils",
-  "version" : "1.0.0",
+  "version" : "1.0.1",
   "description" : "Some utilities that diminish the suck of working with the file system in node",
   "keywords" : ["files", "directories", "fileutil"],
   "homepage" : "http://github.com/lukebayes/node-fileutils",
