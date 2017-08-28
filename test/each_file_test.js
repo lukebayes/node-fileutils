@@ -1,6 +1,6 @@
 
 var assert = require('assert');
-var eachFile = require('fileutils').eachFile;
+var eachFile = require('../src/fileutils').eachFile;
 
 var fixturePath = 'test/fixtures/';
 var defaultTimeout = 10;

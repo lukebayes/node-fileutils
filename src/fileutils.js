@@ -30,7 +30,7 @@ var fs = require("fs");
  *     }
  *   });
  */
-var eachFileOrDirectory = function(directory, fileHandler, completeHandler) {
+var eachFileOrDirectory = function(directory, fileHandler, opt_completeHandler) {
   var filesToCheck = 0;
   var checkedFiles = [];
   var checkedStats = [];
@@ -42,8 +42,8 @@ var eachFileOrDirectory = function(directory, fileHandler, completeHandler) {
   };
 
   var checkComplete = function() {
-    if (filesToCheck == 0 && completeHandler) {
-      completeHandler(null, checkedFiles, checkedStats);
+    if (filesToCheck == 0 && opt_completeHandler) {
+      opt_completeHandler(null, checkedFiles, checkedStats);
     }
   };
 

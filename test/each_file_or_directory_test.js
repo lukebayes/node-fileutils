@@ -1,6 +1,6 @@
 
 var assert = require('assert');
-var eachFileOrDirectory = require('fileutils').eachFileOrDirectory;
+var eachFileOrDirectory = require('../src/fileutils').eachFileOrDirectory;
 
 (function shouldCallbackOnFiles() {
   var completeCalled = false;

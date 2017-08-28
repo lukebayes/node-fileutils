@@ -1,6 +1,6 @@
 
 var assert = require('assert');
-var eachFileMatching = require('fileutils').eachFileMatching;
+var eachFileMatching = require('../src/fileutils').eachFileMatching;
 
 (function exported() {
   assert.ok(eachFileMatching, "Export should be working");
