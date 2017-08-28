@@ -102,7 +102,9 @@ var eachFile = function(path, callback, opt_completeHandler) {
     if (!stat.isDirectory()) {
       if (opt_completeHandler) {
         files.push(file);
-        stats.push(stat);
+        if (opt_completeHandler.length >= 3) {
+          stats.push(stat);
+        }
       }
       if (!err && callback) callback(null, file, stat);
     }
@@ -131,7 +133,9 @@ var eachFileMatching = function(expression, path, callback, opt_completeHandler)
     if (expression.test(file)) {
       if (opt_completeHandler) {
         files.push(file);
-        stats.push(stat);
+        if (opt_completeHandler.length >= 3) {
+          stats.push(stat);
+        }
       }
       if (callback) callback(null, file, stat);
     }
@@ -165,8 +169,12 @@ var readEachFileMatching = function(expression, path, callback, opt_completeHand
       // Only aggregate results if a client decided that's okay.
       if (opt_completeHandler) {
         files.push(file);
-        contents.push(content);
-        stats.push(stat);
+        if (opt_completeHandler.length >= 3) {
+          stats.push(stat);
+        }
+        if (opt_completeHandler.length >= 4) {
+          contents.push(content);
+        }
       }
       if (!err && callback) callback(null, file, stat, content);
     });
