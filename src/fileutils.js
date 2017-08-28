@@ -34,6 +34,7 @@ var eachFileOrDirectory = function(directory, fileHandler, opt_completeHandler) 
   var filesToCheck = 0;
   var checkedFiles = [];
   var checkedStats = [];
+  var checkCompletTimeoutId = null;
 
   directory = (directory) ? directory : './';
 
@@ -43,7 +44,15 @@ var eachFileOrDirectory = function(directory, fileHandler, opt_completeHandler) 
 
   var checkComplete = function() {
     if (filesToCheck == 0 && opt_completeHandler) {
-      opt_completeHandler(null, checkedFiles, checkedStats);
+      // There is a way for this callback to trigger prematurely,
+      // Need to wait for one frame to ensure new files have not
+      // been added.
+      clearTimeout(checkCompletTimeoutId);
+      checkCompletTimeoutId = setTimeout(() => {
+        if (filesToCheck === 0 && opt_completeHandler) {
+          opt_completeHandler(null, checkedFiles, checkedStats);
+        }
+      }, 1);
     }
   };
 
