@@ -17,7 +17,7 @@ var fs = require("fs");
  *     }
  *   });
  *
- * Following is an example that waits for all files and directories to be 
+ * Following is an example that waits for all files and directories to be
  * scanned and then uses the entire result to do somthing:
  *
  *   eachFileOrDirectory('test/', null, function(files, stats) {
@@ -79,25 +79,27 @@ var eachFileOrDirectory = function(directory, fileHandler, completeHandler) {
 };
 
 /**
- * Recursivly, asynchronously traverse the file system calling the provided 
+ * Recursivly, asynchronously traverse the file system calling the provided
  * callback for each file (non-directory) found.
  *
  * Traversal will begin on the provided path.
  */
-var eachFile = function(path, callback, completeHandler) {
+var eachFile = function(path, callback, opt_completeHandler) {
   var files = [];
   var stats = [];
 
   eachFileOrDirectory(path, function(err, file, stat) {
-    if (err) return callback(err);
+    if (err && callback) return callback(err);
     if (!stat.isDirectory()) {
-      files.push(file);
-      stats.push(stat);
-      if (callback) callback(null, file, stat);
+      if (opt_completeHandler) {
+        files.push(file);
+        stats.push(stat);
+      }
+      if (!err && callback) callback(null, file, stat);
     }
   }, function(err) {
-    if (err) return completeHandler(err);
-    if (completeHandler) completeHandler(null, files, stats);
+    if (err && opt_completeHandler) return opt_completeHandler(err);
+    if (!err && opt_completeHandler) opt_completeHandler(null, files, stats);
   });
 };
 
@@ -111,30 +113,32 @@ var eachFile = function(path, callback, completeHandler) {
  *   });
  *
  */
-var eachFileMatching = function(expression, path, callback, completeHandler) {
+var eachFileMatching = function(expression, path, callback, opt_completeHandler) {
   var files = [];
   var stats = [];
 
   eachFile(path, function(err, file, stat) {
     if (err) return callback(err);
     if (expression.test(file)) {
-      files.push(file);
-      stats.push(stat);
+      if (opt_completeHandler) {
+        files.push(file);
+        stats.push(stat);
+      }
       if (callback) callback(null, file, stat);
     }
   }, function(err) {
-    if (err) return completeHandler(err);
-    completeHandler(null, files, stats);
+    if (err && opt_completeHandler) return opt_completeHandler(err);
+    if (!err && opt_completeHandler) opt_completeHandler(null, files, stats);
   });
 };
 
 /**
  * Read each file with a file name that matches the provided expression
- * and was found in the provided path. 
+ * and was found in the provided path.
  *
  * Calls the optionally provided callback for each file found.
  *
- * Calls the optionally provided completeHandler when the search is 
+ * Calls the optionally provided completeHandler when the search is
  * complete.
  *
  *   readEachFileMatching(/_test.js/, 'test', function(err, file, stat, content) {
@@ -142,21 +146,24 @@ var eachFileMatching = function(expression, path, callback, completeHandler) {
  *     console.log(">> Found file: " + file + " with: " + content.length + " chars");
  *   });
  */
-var readEachFileMatching = function(expression, path, callback, completeHandler) {
+var readEachFileMatching = function(expression, path, callback, opt_completeHandler) {
   var files = [];
   var contents = [];
   var stats = [];
   eachFileMatching(expression, path, function(err, file, stat) {
     fs.readFile(file, function(err, content) {
-      if (err) return callback(err);
-      files.push(file);
-      contents.push(content);
-      stats.push(stat);
-      if (callback) callback(null, file, stat, content);
+      if (err && callback) return callback(err);
+      // Only aggregate results if a client decided that's okay.
+      if (opt_completeHandler) {
+        files.push(file);
+        contents.push(content);
+        stats.push(stat);
+      }
+      if (!err && callback) callback(null, file, stat, content);
     });
   }, function(err) {
-    if (err) return completeHandler(err);
-    if (completeHandler) completeHandler(err, files, stats, contents);
+    if (err && opt_completeHandler) return opt_completeHandler(err);
+    if (!err && opt_completeHandler) opt_completeHandler(err, files, stats, contents);
   });
 
 };
